@@ -1,0 +1,166 @@
+**Summary**
+
+For most of the counties I matched with TN Senate District 25, Ed Gillespie (R) had a significant edge over Ed Northam (D). There was plenty of discussion of Northam's inability to connect with rural voters during the campaign, a key point that would be worthwhile to build on. 
+
+It is also worth noting that of the counties I matched, Northam won one and its a decent match to Robertson County. That's another key place to hit (fairly obvious though). There isn't too much to pull from these comparisons; they are barely logical at best. However, it seems that Democrats can *get* votes, it's just about finding the right pockets of people.
+
+```{r,include=F,echo=F}
+library(readxl)
+tn <- read_excel("~/Desktop/Campaigns/Wade Munday - TN Senate District 25/Useful Data/demographics_countylevel.xlsx")
+names(tn)[1] <- "county"
+tn[,5:6] <- round(tn[,5:6]*100,4)
+tn <- tn[-6,]
+
+library(readr)
+va <- read_csv("~/Desktop/Campaigns/Wade Munday - TN Senate District 25/Useful Data/vabycounty.csv")
+```
+
+```{r,include=F,echo=F}
+x.vars <- c("area","population","african_amer","hisp_or_lat")
+y.vars <- c("county","total","per_af","per_his")
+get.rank <- function(x,y,x.vars,y.vars,k){
+  sub.x <- x[,c(x.vars)]; sub.x[,2] <- sub.x[,2]/10000
+  sub.y <- y[,c(y.vars)]; sub.y[,2] <- sub.y[,2]/10000
+  df <- data.frame(matrix(NA,nrow=nrow(sub.x),ncol=nrow(sub.y)))
+  names(df) <- unlist(sub.y[1:(nrow(sub.y)),1])
+  rownames(df) <- unlist(sub.x[1:(nrow(sub.x)),1])
+  for(i in 1:nrow(sub.x)){
+    for(j in 1:nrow(sub.y)){
+      df[i,j] <- sum(abs(sub.x[i,2] - sub.y[j,2]),
+                     abs(sub.x[i,3] - sub.y[j,3]),
+                     abs(sub.x[i,4] - sub.y[j,4]))
+    }
+  }
+  #create df with value b/t two counties to be sum of abs difference, thus smallest is best
+  rel.list <- list()
+  for(i in 1:ncol(df)){
+    temp <- df[order(df[,i]),]
+    rel.list[[i]] <- head(temp,n=k)
+  }
+  return(rel.list)
+}
+```
+
+**The top matched counties, matched by Population, Hispanic Population, and African American population:**
+```{r,echo=F}
+
+listofrels <- get.rank(va,tn,x.vars,y.vars,1)
+gil <- va[which(va$northam_d < va$gillespie_r),]
+nor <- va[which(va$northam_d > va$gillespie_r),]
+
+#cheatham
+cheatham <- va[va$area %in% rownames(listofrels[[1]]),]
+cheatham <- cheatham[,c("northam_d","gillespie_r",x.vars)]
+cheatham[,'cty'] <- "cheatham"
+
+#dickson
+dickson <- va[va$area %in% rownames(listofrels[[2]]),]
+dickson <- dickson[,c("northam_d","gillespie_r",x.vars)]
+dickson[,'cty'] <- "dickson"
+
+#hickman
+hickman <- va[va$area %in% rownames(listofrels[[3]]),]
+hickman <- hickman[,c("northam_d","gillespie_r",x.vars)]
+hickman[,'cty'] <- "hickman"
+
+#humphreys
+humphreys <- va[va$area %in% rownames(listofrels[[4]]),]
+humphreys <- humphreys[,c("northam_d","gillespie_r",x.vars)]
+humphreys[,'cty'] <- "humphreys"
+
+#robertson
+robertson <- va[va$area %in% rownames(listofrels[[5]]),]
+robertson <- robertson[,c("northam_d","gillespie_r",x.vars)]
+robertson[,'cty'] <- "robertson"
+
+z <- rbind(cheatham,dickson,hickman,humphreys,robertson)
+names(z) <- c("Votes for Northam","Votes for Gillespie", "Virginia Precinct","Precinct Population","African American %","Hispanic/Latino %","Tennessee Precinct")
+knitr::kable(z)
+```
+
+We see that Ed Gillespie won each of these precincts. Going further later in this report, we see that Ed Gillespie won all but one of these precincts (24/25), which coincidentally is matched to Robertson County in the 25th Senate Disrict. 
+
+That being said, this analysis shows that "matching" counties by these variables implies that the Republican has a significant advantage in precincts like these. Thus, perhaps it will be easier to learn from the Democratic strategies Ralph Northam used in some of these precincts.
+
+**The top 5 precincts for each county:**
+```{r,include=F,echo=F}
+listofrels <- get.rank(va,tn,x.vars,y.vars,7)
+gil <- va[which(va$northam_d < va$gillespie_r),]
+nor <- va[which(va$northam_d > va$gillespie_r),]
+
+#cheatham
+cheatham <- va[va$area %in% rownames(listofrels[[1]]),]
+cheatham <- cheatham[,c("northam_d","gillespie_r",x.vars)]
+cheatham[,'cty'] <- "cheatham"
+
+#dickson
+dickson <- va[va$area %in% rownames(listofrels[[2]]),]
+dickson <- dickson[,c("northam_d","gillespie_r",x.vars)]
+dickson[,'cty'] <- "dickson"
+
+#hickman
+hickman <- va[va$area %in% rownames(listofrels[[3]]),]
+hickman <- hickman[,c("northam_d","gillespie_r",x.vars)]
+hickman[,'cty'] <- "hickman"
+
+#humphreys
+humphreys <- va[va$area %in% rownames(listofrels[[4]]),]
+humphreys <- humphreys[,c("northam_d","gillespie_r",x.vars)]
+humphreys[,'cty'] <- "humphreys"
+
+#robertson
+robertson <- va[va$area %in% rownames(listofrels[[5]]),]
+robertson <- robertson[,c("northam_d","gillespie_r",x.vars)]
+robertson[,'cty'] <- "robertson"
+
+names(cheatham) <- c("Votes for Northam","Votes for Gillespie", "Virginia Precinct","Precinct Population","African American %","Hispanic/Latino %","Tennessee Precinct")
+names(dickson) <- c("Votes for Northam","Votes for Gillespie", "Virginia Precinct","Precinct Population","African American %","Hispanic/Latino %","Tennessee Precinct")
+names(hickman) <- c("Votes for Northam","Votes for Gillespie", "Virginia Precinct","Precinct Population","African American %","Hispanic/Latino %","Tennessee Precinct")
+names(humphreys) <- c("Votes for Northam","Votes for Gillespie", "Virginia Precinct","Precinct Population","African American %","Hispanic/Latino %","Tennessee Precinct")
+names(robertson) <- c("Votes for Northam","Votes for Gillespie", "Virginia Precinct","Precinct Population","African American %","Hispanic/Latino %","Tennessee Precinct")
+
+z <- rbind(cheatham,dickson,hickman,humphreys,robertson)
+``` 
+
+As we see, there are just a handful of matched counties where Ralph Northam (D) did well. They are listed below:
+```{r,echo=F}
+ctys <- unique(head(z[order(z$`Votes for Northam`/z$`Votes for Gillespie`,decreasing = T),],n=15)$'Virginia Precinct')
+for(i in 1:length(ctys)){print(paste(ctys[i]))}
+```
+
+##Strategies
+A collection of useful notes about some of the important counties above: 
+
+**Albemarle County**
+Note: Albemarle contains Charlottesville, thus was a hot topic this year. Further, the county has been historically Democratic, thus the win is not all that surprising (it's not unlike Robertson). 
+
++ [July Event](http://www.nbc29.com/story/35893723/ralph-northam-faces-pressure-from-protesters-for-pipeline-views)
++ [September Event](http://www.nbc29.com/story/36477489/gubernatorial-candidate-gillespie-attends-albemarle-county-event)
++ [CNN: Counties to Watch](http://www.cnn.com/2017/11/07/politics/counties-virginia-governors-race/index.html)
+
+**James City County**
+
++ [Pam Northam Event - Williamsburg](https://www.facebook.com/events/2179610348723166/)
+
+**Rappahannock County**
+
++ [Rappahannock for Northam Event](http://rappdems.org/wp-content/uploads/2017/08/Rappahannock-for-Northam.pdf)
+
+**Fauquier County**
+
++ Worth noting that "Ralph also supported plans to build new veterans care centers in Fauquier County"
+
+**Rockbridge County**
+
++ [July Event](https://www.facebook.com/permalink.php?story_fbid=974110072691910&id=657827494320171)
++ [Dems Ignoring Rural VA](http://www.roanoke.com/news/politics/rockbridge-county-party-chairman-says-state-democrats-are-ignoring-rural/article_d1c98e1f-5bb6-5c25-8746-bddec72ff913.html)
++ [More Rural Woes](https://www.politico.com/story/2017/11/03/democrats-dream-candidate-struggles-rural-voters-244527)
++ [Even More Woes](https://www.rga.org/ralph-northams-struggle-connect-rural-virginians-stoke-democrat-panic/)
+
+**Floyd County**
+
++ [October Event with Sen. Tim Kaine](https://www.facebook.com/events/128533001143580/)
+
+**Other Useful Links**
+
++ [Northam Memo to other Dems](https://ralphnortham.com/2017/11/10/memo-ralph-northam-won-democrats-can-replicate-strategy/)

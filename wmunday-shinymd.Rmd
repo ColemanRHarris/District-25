@@ -1,0 +1,60 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
+
+In thinking about predictions, there are a few things to point out:  
+
++ Voting rates in midterm elections in these counties has been decreasing over the past 15 years
+    + Turnout in 2014 was far lower than in 2010, 2006, and 2002
++ Roughly half of the people who turn out for general elections vote in midterms
++ Redistricting has made my predictions very approximate, as I incorporate data from House and Senate midterms of the same year  
+
+Let's make some predictions:  
+
++ Taking half of the electorate in the 2016 presidential election, we get **38,350 voters** expected in 2018.
+    + 2014 had 41,484 voters, so this follows the decreasing participation rate in Midterms
++ If we take the average of Midterm voters from 2002 to 2014 in the 5 counties, we get **48,500 voters.**
+
+So these are some nice bounds, but we want a more accurate estimate. Our two most accurate numbers for this district are the 2014 and 2016 elections, and we find that only 55% of the electorate that voted in the 2016 presidential election voted in 2014 midterms. 
+
+We will use two prediction methods and average them together for a decent vote estimate. First, we'll take the turnout rate of the 2014 election and find the expected turnout of 2020 *(turnout projection)*. Then, we'll take a linear model of the past 4 elections (2002,2006,2010,2012), and calculated the expected value in 2018 based on this linear model *(linear projection)*. We then average these to reach a better estimate.  
+
+**Cheatham**:
+
++ Turnout Projection: 8825  
++ Linear Projection: 8347  
++ *Average*: 8586  
+  
+**Dickson**:
+
++ Turnout Projection: 10812
++ Linear Projection: 8347
++ *Average*: 8586
+  
+**Hickman**:
+
++ Turnout Projection: 4413
++ Linear Projection: 3743
++ *Average*: 4078
+  
+**Humphreys**:
+
++ Turnout Projection: 4152
++ Linear Projection: 3568
++ *Average*: 3860
+  
+**Robertson**:
+
++ Turnout Projection: 14654
++ Linear Projection: 14645
++ *Average*: 14649
+  
+**TOTAL**:
+
++ Turnout Projection: 42855
++ Linear Projection: 39921
++ *Average*: 41388
+
+So, let's approximate between **40,000 - 41,000**--that's the vote count we expect.
