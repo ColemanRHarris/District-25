@@ -15,19 +15,30 @@ In thinking about predictions, there are a few things to point out:
 Let's make some predictions:  
 
 + Taking half of the electorate in the 2016 presidential election, we get **38,350 voters** expected in 2018.
-    + 2014 had 41,484 voters, so this follows the decreasing participation rate in Midterms
+    + 2014 had 41,484 voters, so this would follow the decreasing participation rate in Midterms
 + If we take the average of Midterm voters from 2002 to 2014 in the 5 counties, we get **48,500 voters.**
 
-So these are some nice bounds, but we want a more accurate estimate. Our two most accurate numbers for this district are the 2014 and 2016 elections, and we find that only 55% of the electorate that voted in the 2016 presidential election voted in 2014 midterms. 
+So these are some nice wide bounds, but we want a more accurate estimate. 
 
 We will use two prediction methods and average them together for a decent vote estimate. First, we'll take the turnout rate of the 2014 election and find the expected turnout of 2020, e.g. *(turnout projection)*. Then, we'll take a linear model of the past 4 elections (2002,2006,2010,2012), and calculate a quick linear model for 2018 based on this *(linear projection)*. We can use these together to get a nice range for our estimate. 
 
-```{r}
+```{r,echo=F}
 cty_dat <- read.table("countydata.csv",sep = "\t",header = T)
-l <- lm(cty_dat$votes ~ cty_dat$year)
+cty_dat[21:25,]$year <- 2018; cty_dat[21:25,]$county <- cty_dat[1:5,]$county
+for(i in 1:5){
+  sub <- cty_dat[which(cty_dat$county == cty_dat$county[i]),]
+  a <- lm(sub$votes[1:4] ~ sub$year[1:4])
+  cty_dat[(20+i),]$votes <- a$coefficients[1] + 2018*a$coefficients[2]
+}
 
+library(ggplot2)
+ggplot(data=cty_dat) + geom_point(aes(year,votes,color=county)) + geom_line(aes(year,votes,color=county)) + scale_y_continuous(limits=c(0,18000),name = "Number of Votes") + scale_x_continuous(breaks=c(2002,2006,2010,2014,2018),name="Election Year",labels=c(02,06,10,14,18))+facet_wrap(~county)
 ```
 
+
+```{r}
+fteen <- read.csv("popn_14.csv")
+```
 
 **Cheatham**:
 
