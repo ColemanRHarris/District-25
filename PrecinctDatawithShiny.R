@@ -26,18 +26,18 @@ ui <- fluidPage(
     ###DIFFERENCE
     h5("Please don't clear these values--highlight them and type a new one. No value will cause the app to quit."),
     h5("Republican - Democratic Votes"),
-    inline(numericInput("diff_lb","Lower",value=min(District25_NoPaperBallot$Difference))),
-    inline(numericInput("diff_ub","Upper",value=max(District25_NoPaperBallot$Difference))),
+    inline(numericInput("diff_lb","Lower",value=floor(min(District25_NoPaperBallot$Difference)/10)*10)),
+    inline(numericInput("diff_ub","Upper",value=ceiling(max(District25_NoPaperBallot$Difference)/10)*10)),
     
     ###TOTAL VOTES 14
     h5("Total Votes - 2014"),
-    inline(numericInput("t14_lb","Lower",value=min(District25_NoPaperBallot$TotalVotes))),
-    inline(numericInput("t14_ub","Upper",value=max(District25_NoPaperBallot$TotalVotes))),
+    inline(numericInput("t14_lb","Lower",value=floor(min(District25_NoPaperBallot$TotalVotes)/10)*10)),
+    inline(numericInput("t14_ub","Upper",value=ceiling(max(District25_NoPaperBallot$TotalVotes)/10)*10)),
     
     ###REG VOTERS - 16
     h5("Registered Voters - 2016"),
-    inline(numericInput("r16_lb","Lower",value=min(District25_NoPaperBallot$RegVoters))),
-    inline(numericInput("r16_ub","Upper",value=max(District25_NoPaperBallot$RegVoters))),
+    inline(numericInput("r16_lb","Lower",value=floor(min(District25_NoPaperBallot$RegVoters)/10)*10)),
+    inline(numericInput("r16_ub","Upper",value=ceiling(max(District25_NoPaperBallot$RegVoters)/10)*10)),
     
     ### % DEMS
     h5("Average % Democrat"),
