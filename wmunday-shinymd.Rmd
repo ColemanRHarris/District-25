@@ -3,6 +3,7 @@ output:
   html_document: default
   pdf_document: default
 ---
+##Predictions
 
 In thinking about predictions, there are a few things to point out:  
 
@@ -19,7 +20,9 @@ Let's make some predictions:
 
 So these are some nice bounds, but we want a more accurate estimate. Our two most accurate numbers for this district are the 2014 and 2016 elections, and we find that only 55% of the electorate that voted in the 2016 presidential election voted in 2014 midterms. 
 
-We will use two prediction methods and average them together for a decent vote estimate. First, we'll take the turnout rate of the 2014 election and find the expected turnout of 2020 *(turnout projection)*. Then, we'll take a linear model of the past 4 elections (2002,2006,2010,2012), and calculated the expected value in 2018 based on this linear model *(linear projection)*. We then average these to reach a better estimate.  
+We will use two prediction methods and average them together for a decent vote estimate. First, we'll take the turnout rate of the 2014 election and find the expected turnout of 2020, e.g. *(turnout projection)*. Then, we'll take a linear model of the past 4 elections (2002,2006,2010,2012), and calculate a quick linear model for 2018 based on this *(linear projection)*. We can use these together to get a nice range for our estimate. 
+
+
 
 **Cheatham**:
 
