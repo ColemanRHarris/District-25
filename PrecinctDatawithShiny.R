@@ -50,8 +50,8 @@ ui <- fluidPage(
         leafletOutput("map")
       ),
       tabPanel("Analysis",
-        #includeHTML("wmunday-sd25_1.html")
-        includeMarkdown("wmunday-shinymd.Rmd")
+        includeHTML("wmunday-shinymd.html")
+        #includeMarkdown("wmunday-shinymd.Rmd")
       )
     )
   )
