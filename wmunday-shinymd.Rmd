@@ -3,6 +3,7 @@ output:
   html_document: default
   pdf_document: default
 ---
+
 ##Predictions
 
 In thinking about predictions, there are a few things to point out:  
