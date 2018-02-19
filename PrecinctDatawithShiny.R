@@ -52,10 +52,6 @@ ui <- fluidPage(
       tabPanel("Analysis",
         #includeHTML("wmunday-sd25_1.html")
         includeMarkdown("wmunday-shinymd.Rmd")
-      ),
-      tabPanel("Virginia Comparisons",
-        includeMarkdown("va-tn.Rmd")
-        #includeHTML("VA-TN-counties.html")
       )
     )
   )
