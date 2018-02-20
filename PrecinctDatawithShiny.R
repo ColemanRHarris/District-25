@@ -25,7 +25,7 @@ ui <- fluidPage(
   sidebarPanel(
     ###DIFFERENCE
     h5("Please don't clear these values--highlight them and type a new one. No value will cause the app to quit."),
-    h5("Republican - Democratic Votes"),
+    h5("Republican - Democratic Votes (Difference)"),
     inline(numericInput("diff_lb","Lower",value=floor(min(District25_NoPaperBallot$Difference)/10)*10)),
     inline(numericInput("diff_ub","Upper",value=ceiling(max(District25_NoPaperBallot$Difference)/10)*10)),
     
