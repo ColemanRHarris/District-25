@@ -29,7 +29,7 @@ We will use two prediction methods and average them together for a decent vote e
 
 <center>
 ```{r,echo=F}
-cty_dat <- read.table("countydata.csv",sep = "\t",header = T,stringsAsFactors = F)
+cty_dat <- read.table("data/countydata.csv",sep = "\t",header = T,stringsAsFactors = F)
 cty_dat[21:25,]$year <- 2018; cty_dat[21:25,]$county <- cty_dat[1:5,]$county
 
 #fill in linear projection
@@ -50,7 +50,7 @@ ggplot(data=cty_dat) + geom_point(aes(year,votes,color=county)) + geom_line(aes(
 ---
 
 ```{r,echo=F}
-fteen <- read.csv("popn_14.csv",stringsAsFactors = F)
+fteen <- read.csv("data/popn_14.csv",stringsAsFactors = F)
 
 x <- data.frame(matrix(NA,nrow=5,ncol=3))
 colnames(x) <- c("County","LinearProjection","TurnoutProjection")

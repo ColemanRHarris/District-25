@@ -7,8 +7,8 @@ library(dplyr)
 
 ##This can mostly be generalized for any set of political data. 
 ##The difficulty lies in finding longitude/latitude coordinates and keying by hand.
-District25_NoPaperBallot <- read_csv("district25.csv")
-x <- read_csv("x.csv")
+District25_NoPaperBallot <- read_csv("data/district25.csv")
+x <- read_csv("data/x.csv")
 
 #shiny implementation
 
